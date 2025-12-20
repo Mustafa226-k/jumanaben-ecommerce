@@ -78,7 +78,7 @@ const Auth = () => {
   };
 
   return (
-    <div className="auth-container">
+    <div className="auth-container container">
       <div className={`flip-card ${isSignup ? "flipped" : ""}`}>
         <div className="flip-card-inner">
 
@@ -106,7 +106,7 @@ const Auth = () => {
                     value={!isSignup ? password : ""}
                     onChange={(e) => setPassword(e.target.value)}
                   />
-                  <span onClick={() => handleFrogetPassword(email)}>Forgot Password?</span>
+
                 </div>
                 <div className="switch-text" style={{marginBottom : 10}}>
                   <span onClick={() => handleFrogetPassword(email)}>Forgot Password?</span>

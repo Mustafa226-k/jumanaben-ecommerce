@@ -1,119 +1,109 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
 
+/* ===============================
+   AUTH THEME VARIABLES
+   =============================== */
 :root {
   --primary-color: #d81b60;
-  /* Pink 600 */
   --primary-hover: #ad1457;
-  /* Pink 800 */
   --bg-gradient-start: #fce4ec;
-  /* Pink 50 */
   --bg-gradient-end: #f8bbd0;
-  /* Pink 100 */
   --text-dark: #333;
   --text-light: #666;
 }
 
-* {
+/* ===============================
+   AUTH PAGE BASE RESET
+   =============================== */
+.auth-container,
+.auth-container * {
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #fce4ec;
-  /* Fallback pink */
-}
-
+/* ===============================
+   AUTH PAGE BODY-LIKE BACKGROUND
+   =============================== */
 .auth-container {
+  min-height: 100vh;
   display: flex;
   justify-content: center;
-  /* Removed align-items: center to prevent cutting off on small screens */
-  min-height: 100vh;
-  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
   padding: 20px;
+  background: linear-gradient(
+    135deg,
+    var(--bg-gradient-start) 0%,
+    var(--bg-gradient-end) 100%
+  );
 }
 
-/* The Flip Card Container */
+/* ===============================
+   FLIP CARD STRUCTURE
+   =============================== */
 .flip-card {
-  background-color: transparent;
-  width: 90%;
+  width: 100%;
   max-width: 450px;
-  /* Safe centering: margin auto combined with flex parent centers item but allows scrolling */
   margin: auto;
   perspective: 1000px;
 }
 
-/* The Inner Container: This needs to be the one flipping */
 .flip-card-inner {
   position: relative;
   width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
-  /* Grid approach for dynamic height */
   display: grid;
   grid-template-areas: "card";
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
 }
 
-/* Do the flip */
 .flip-card.flipped .flip-card-inner {
   transform: rotateY(180deg);
 }
 
-/* Front and Back Faces */
+/* ===============================
+   FRONT & BACK
+   =============================== */
 .flip-card-front,
 .flip-card-back {
-  /* Renoved absolute positioning */
   grid-area: card;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden;
-  /* Safari */
-  backface-visibility: hidden;
-  border-radius: 20px;
-  /* Softer shadow as requested */
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
   background: rgba(255, 255, 255, 0.95);
-  /* Slight glass effect on card */
-  backdrop-filter: blur(5px);
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  padding: 40px;
+  backface-visibility: hidden;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 40px;
 }
 
-/* Style the Back differently if needed, or just same white bg */
 .flip-card-back {
   transform: rotateY(180deg);
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(5px);
 }
 
-/* Content Styling */
+/* ===============================
+   CONTENT
+   =============================== */
 .auth-content {
   width: 100%;
   max-width: 320px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  text-align: center;
 }
 
 .auth-content h1 {
-  margin: 0 0 10px;
   font-size: 28px;
   font-weight: 600;
   color: var(--text-dark);
+  margin-bottom: 10px;
 }
 
 .auth-content p {
-  margin: 0 0 30px;
-  color: var(--text-light);
   font-size: 14px;
+  color: var(--text-light);
+  margin-bottom: 30px;
 }
 
+/* ===============================
+   INPUTS
+   =============================== */
 .input-group {
   width: 100%;
   margin-bottom: 20px;
@@ -121,55 +111,50 @@ body {
 
 .input-group input {
   width: 100%;
-  padding: 15px;
-  border: 1px solid #ddd;
+  padding: 14px;
   border-radius: 8px;
-  background-color: #fff;
-  color: var(--text-dark);
-  /* Added explicit text color */
+  border: 1px solid #ddd;
   font-size: 14px;
-  transition: all 0.3s ease;
-  outline: none;
 }
 
 .input-group input:focus {
+  outline: none;
   border-color: var(--primary-color);
-  background-color: #fff;
-  box-shadow: 0 0 0 4px rgba(216, 27, 96, 0.1);
+  box-shadow: 0 0 0 3px rgba(216, 27, 96, 0.1);
 }
 
+/* ===============================
+   BUTTONS
+   =============================== */
 .auth-btn {
   width: 100%;
-  padding: 15px;
+  padding: 14px;
   background: var(--primary-color);
-  color: #fff;
+  color: white;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-bottom: 20px;
+  transition: 0.3s;
 }
 
 .auth-btn:hover {
   background: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(216, 27, 96, 0.2);
 }
 
+/* ===============================
+   DIVIDER
+   =============================== */
 .divider {
   display: flex;
   align-items: center;
-  text-align: center;
-  width: 100%;
-  margin: 10px 0 25px;
-  color: #ccc;
+  margin: 20px 0;
+  color: #aaa;
 }
 
 .divider::before,
 .divider::after {
-  content: '';
+  content: "";
   flex: 1;
   border-bottom: 1px solid #eee;
 }
@@ -177,76 +162,51 @@ body {
 .divider span {
   padding: 0 10px;
   font-size: 12px;
-  font-weight: 500;
-  color: #999;
 }
 
+/* ===============================
+   GOOGLE BUTTON
+   =============================== */
 .google-btn {
   width: 100%;
   padding: 12px;
-  background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
-  color: #333;
-  font-weight: 500;
+  background: #fff;
   font-size: 14px;
-  cursor: pointer;
   display: flex;
-  justify-content: center;
   align-items: center;
-  transition: all 0.3s ease;
-  margin-bottom: 25px;
+  justify-content: center;
   gap: 10px;
-  /* Space between icon and text */
+  cursor: pointer;
 }
 
 .google-btn:hover {
-  background: #fdfdfd;
-  border-color: #ccc;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background: #f9f9f9;
 }
 
+/* ===============================
+   SWITCH TEXT
+   =============================== */
 .switch-text {
   font-size: 14px;
   color: var(--text-light);
-  margin: 0;
 }
 
 .switch-text span {
   color: var(--primary-color);
   font-weight: 600;
   cursor: pointer;
-  margin-left: 5px;
   text-decoration: underline;
 }
 
-.switch-text span:hover {
-  color: var(--primary-hover);
-}
-
-
-/* =================================================================
-   Responsive Design
-   ================================================================= */
+/* ===============================
+   RESPONSIVE
+   =============================== */
 @media (max-width: 480px) {
-  .auth-container {
-    padding: 10px;
-  }
-
-  .flip-card {
-    width: 100%;
-    min-height: auto;
-    perspective: none;
-  }
-
   .flip-card-front,
   .flip-card-back {
     padding: 25px 20px;
-    border-radius: 15px;
-  }
-
-  .auth-content {
-    max-width: 100%;
   }
 
   .auth-content h1 {

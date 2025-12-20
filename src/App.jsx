@@ -7,6 +7,7 @@ import {
   // getRedirectResult
 } from "firebase/auth";
 import { auth } from "./firebase/authentication";
+import Home from "./Pages/Home";
 
 function App() {
 
@@ -25,7 +26,8 @@ function App() {
 
   return (
     <>
-      <LoginSignup />
+      {/* <LoginSignup /> */}
+      <Home/>
     </>
   );
 }
