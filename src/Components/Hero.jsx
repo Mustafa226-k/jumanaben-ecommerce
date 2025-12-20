@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Hero.css';
+import '..style/hero.css ';
 
 const Hero = () => {
   const [currentProductIndex, setCurrentProductIndex] = useState(0);
