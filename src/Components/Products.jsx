@@ -1,141 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import "../style/Products.css";
+import { getFeaturedProducts , getAvailableProducts } from '../API/productapi';
 
 // Static products data - Easy to edit and make dynamic later
-const productsData = [
-  {
-    id: 1,
-    name: "Elegant Floral Dress",
-    price: 89.99,
-    category: "Women • Dress",
-    image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop"
-  },
-  {
-    id: 2,
-    name: "Classic White Shirt",
-    price: 49.99,
-    category: "Men • Shirt",
-    image: "https://images.unsplash.com/photo-1603252109303-2751441dd157?w=400&h=500&fit=crop"
-  },
-  {
-    id: 3,
-    name: "Denim Jacket Blue",
-    price: 79.99,
-    category: "Unisex • Jacket",
-    image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=500&fit=crop"
-  },
-  {
-    id: 4,
-    name: "Summer Beach Shorts",
-    price: 39.99,
-    category: "Men • Shorts",
-    image: "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=400&h=500&fit=crop"
-  },
-  {
-    id: 5,
-    name: "Casual T-Shirt",
-    price: 29.99,
-    category: "Unisex • T-Shirt",
-    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=500&fit=crop"
-  },
-  {
-    id: 6,
-    name: "Winter Sweater",
-    price: 69.99,
-    category: "Women • Sweater",
-    image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400&h=500&fit=crop"
-  },
-  {
-    id: 7,
-    name: "Sporty Activewear Set",
-    price: 99.99,
-    category: "Unisex • Activewear",
-    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=500&fit=crop"
-  },
-  {
-    id: 8,
-    name: "Formal Black Suit",
-    price: 199.99,
-    category: "Men • Suit",
-    image: "https://images.unsplash.com/photo-1594938291221-94f18dd6d281?w=400&h=500&fit=crop"
-  },
-  {
-    id: 9,
-    name: "Elegant Evening Gown",
-    price: 149.99,
-    category: "Women • Dress",
-    image: "https://images.unsplash.com/photo-1566479179817-2788398a8e78?w=400&h=500&fit=crop"
-  },
-  {
-    id: 10,
-    name: "Leather Biker Jacket",
-    price: 249.99,
-    category: "Unisex • Jacket",
-    image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=500&fit=crop"
-  },
-  {
-    id: 11,
-    name: "Vintage Denim Jeans",
-    price: 59.99,
-    category: "Unisex • Jeans",
-    image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=500&fit=crop"
-  },
-  {
-    id: 12,
-    name: "Cozy Knit Cardigan",
-    price: 74.99,
-    category: "Women • Cardigan",
-    image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400&h=500&fit=crop"
-  },
-  {
-    id: 13,
-    name: "Business Casual Blazer",
-    price: 129.99,
-    category: "Men • Blazer",
-    image: "https://images.unsplash.com/photo-1594938291221-94f18dd6d281?w=400&h=500&fit=crop"
-  },
-  {
-    id: 14,
-    name: "Trendy Crop Top",
-    price: 34.99,
-    category: "Women • Top",
-    image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&h=500&fit=crop"
-  },
-  {
-    id: 15,
-    name: "Comfortable Lounge Pants",
-    price: 44.99,
-    category: "Unisex • Pants",
-    image: "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=400&h=500&fit=crop"
-  },
-  {
-    id: 16,
-    name: "Stylish Maxi Dress",
-    price: 94.99,
-    category: "Women • Dress",
-    image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop"
-  },
-  {
-    id: 17,
-    name: "Classic Polo Shirt",
-    price: 54.99,
-    category: "Men • Shirt",
-    image: "https://images.unsplash.com/photo-1603252109303-2751441dd157?w=400&h=500&fit=crop"
-  },
-  {
-    id: 18,
-    name: "Chic Midi Skirt",
-    price: 64.99,
-    category: "Women • Skirt",
-    image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop"
-  }
-];
+
 
 const Products = () => {
+  const [productsData, setProductsData] = useState([]);
+const [loading, setLoading] = useState(true);
+
+const [currentPage, setCurrentPage] = useState(1);
+
+const productsPerPage = 8;
+
+useEffect(()=>{
+  const fetchProducts = async () => {
+    try{
+      const data = await getAvailableProducts();
+      setProductsData(data);
+    }
+    catch(error){
+      console.error("Error fetching products:",error);
+    }
+    finally{
+      setLoading(false);
+    }
+  };
+  fetchProducts();
+},[]);
+
+// console.log(productsData);
+
+if(loading){
+  return <div className="loading-container">Loading...</div>;
+}
+  if(productsData.length === 0){
+    return <div className="no-products-container">No products found</div>;
+  }
   // Pagination settings - Easy to edit
-  const productsPerPage = 8; // Number of products to show per page
+   // Number of products to show per page
   
-  const [currentPage, setCurrentPage] = useState(1);
+  
   
   // Calculate pagination
   const totalProducts = productsData.length;
@@ -156,7 +61,7 @@ const Products = () => {
   const handlePageClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
+  console.log(productsData)
   return (
     <section className="products-section">
       <div className="products-container">
@@ -173,6 +78,7 @@ const Products = () => {
               <div className="product-image-wrapper">
                 <img
                   src={product.image}
+                  
                   alt={product.name}
                   className="product-img"
                 />
@@ -185,7 +91,7 @@ const Products = () => {
                 <p className="product-card-category">{product.category}</p>
                 <h3 className="product-card-name">{product.name}</h3>
                 <div className="product-card-footer">
-                  <span className="product-card-price">${product.price}</span>
+                  <span className="product-card-price">₹{product.price}</span>
                   <button className="add-to-cart-icon-btn" aria-label="Add to cart">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                       <path
