@@ -1,5 +1,7 @@
 import React from 'react'
 import user from "../Images/user.png";
+import heart from "../Images/heart.png";
+import shoppingCart from "../Images/shopping-cart.png";
 import "../style/Images.css";
 
 export default function Navbar() {
@@ -56,17 +58,17 @@ export default function Navbar() {
         </li>
         <li className="nav-item">
           <a className="nav-link" href="#">
-            WishList
+            <img src={heart} alt="Wishlist" title="Wishlist" className="navbar-icon" />
           </a>
         </li>
         <li className="nav-item">
           <a className="nav-link" href="#">
-            Bag
+            <img src={shoppingCart} alt="Cart" title="Shopping Cart" className="navbar-icon" />
           </a>
         </li>
         <li className="nav-item">
           <a className="nav-link" href="#">
-           <img src={user} alt="Profile" className="navbar-user" />
+           <img src={user} alt="Profile" title="Profile" className="navbar-icon navbar-avatar" />
           </a>
         </li>
       

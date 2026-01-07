@@ -226,8 +226,15 @@
 }
 
 /* Add to Cart Button */
-.add-to-cart-btn {
+.hero-product-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
   width: 100%;
+}
+
+.add-to-cart-btn {
+  flex: 1;
   padding: 1rem;
   border-radius: 12px;
   border: none;
@@ -252,6 +259,11 @@
 
 .add-to-cart-btn:active {
   transform: translateY(0);
+}
+
+/* Hero-specific wishlist styling */
+.hero-product-actions .wishlist-icon-btn {
+  margin-bottom: 0.5rem;
 }
 
 .add-to-cart-btn svg {

@@ -2,17 +2,18 @@ import React, { useState , useEffect } from 'react';
 import "../style/Products.css";
 import {getAvailableProducts } from '../API/productapi';
 import Loding from './Loding';
+import heart from "../Images/heart.png";
 
 // Static products data - Easy to edit and make dynamic later
 
 
 const Products = () => {
   const [productsData, setProductsData] = useState([]);
-const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+ // const [wishlist, setWishlist] = useState(new Set());
 
-const [currentPage, setCurrentPage] = useState(1);
-
-const productsPerPage = 8;
+  const productsPerPage = 8;
 
 useEffect(()=>{
   const fetchProducts = async () => {
@@ -62,6 +63,17 @@ if(loading){
   const handlePageClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
+ const toggleWishlist = (productId) => {
+    setProductsData((prev) =>
+      prev.map((product) =>
+        product.id === productId
+          ? { ...product, wishlist: !product.wishlist }
+          : product
+      )
+    );
+  };
+
   console.log(productsData)
   return (
     <section className="products-section">
@@ -93,17 +105,34 @@ if(loading){
                 <h3 className="product-card-name">{product.name}</h3>
                 <div className="product-card-footer">
                   <span className="product-card-price">₹{product.price}</span>
-                  <button className="add-to-cart-icon-btn" aria-label="Add to cart">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                      <path
-                        d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.70711 15.2929C4.07714 15.9229 4.52331 17 5.41421 17H17M17 17C15.8954 17 15 17.8954 15 19C15 20.1046 15.8954 21 17 21C18.1046 21 19 20.1046 19 19C19 17.8954 18.1046 17 17 17ZM9 19C9 20.1046 8.10457 21 7 21C5.89543 21 5 20.1046 5 19C5 17.8954 5.89543 17 7 17C8.10457 17 9 17.8954 9 19Z"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
+                  <div className="product-card-actions">
+                    {/* ✅ WISHLIST BUTTON */}
+                    <button
+                      className={`wishlist-icon-btn ${
+                        product.wishlist ? "active" : ""
+                      }`}
+                      title="Add to Wishlist"
+                      aria-label="Add to wishlist"
+                      onClick={() => toggleWishlist(product.id)}
+                    >
+                      <img
+                        src={heart}
+                        alt="Wishlist"
+                        className="wishlist-icon"
                       />
-                    </svg>
-                  </button>
+                    </button>
+                    <button className="add-to-cart-icon-btn" aria-label="Add to cart">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.70711 15.2929C4.07714 15.9229 4.52331 17 5.41421 17H17M17 17C15.8954 17 15 17.8954 15 19C15 20.1046 15.8954 21 17 21C18.1046 21 19 20.1046 19 19C19 17.8954 18.1046 17 17 17ZM9 19C9 20.1046 8.10457 21 7 21C5.89543 21 5 20.1046 5 19C5 17.8954 5.89543 17 7 17C8.10457 17 9 17.8954 9 19Z"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

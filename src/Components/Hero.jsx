@@ -3,12 +3,14 @@ import "../style/hero.css"
 import "../style/Products.css";
 import {getFeaturedProducts} from '../API/productapi';
 import Loding from './Loding';
+import heart from "../Images/heart.png";
 
 
 const Hero = () => {
   const [currentProductIndex, setCurrentProductIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [products,setProducts] = useState();
+  const [wishlist, setWishlist] = useState(new Set());
 
   useEffect(()=>{
     const fetchProducts = async () => {
@@ -72,6 +74,18 @@ const Hero = () => {
     );
   };
 
+  const toggleWishlist = (productId) => {
+    setWishlist((prev) => {
+      const newWishlist = new Set(prev);
+      if (newWishlist.has(productId)) {
+        newWishlist.delete(productId);
+      } else {
+        newWishlist.add(productId);
+      }
+      return newWishlist;
+    });
+  };
+
   const currentProduct = products[currentProductIndex];
 
   return (
@@ -129,17 +143,28 @@ const Hero = () => {
           <div className="product-info">
             <div className="product-details">
               <h3 className="product-name">{currentProduct.name}</h3>
-              <span className="product-price">${currentProduct.price}</span>
+              <span className="product-price">₹{currentProduct.price}</span>
             </div>
             <p className="product-category">{currentProduct.category}</p>
           </div>
 
-          <button className="add-to-cart-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.70711 15.2929C4.07714 15.9229 4.52331 17 5.41421 17H17M17 17C15.8954 17 15 17.8954 15 19C15 20.1046 15.8954 21 17 21C18.1046 21 19 20.1046 19 19C19 17.8954 18.1046 17 17 17ZM9 19C9 20.1046 8.10457 21 7 21C5.89543 21 5 20.1046 5 19C5 17.8954 5.89543 17 7 17C8.10457 17 9 17.8954 9 19Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            Add to Cart
-          </button>
+          <div className="hero-product-actions">
+            <button 
+              className={`wishlist-icon-btn ${wishlist.has(currentProduct.id) ? 'active' : ''}`}
+              title="Add to Wishlist" 
+              aria-label="Add to wishlist"
+              onClick={() => toggleWishlist(currentProduct.id)}
+              style={{ marginBottom: '0.5rem' }}
+            >
+              <img src={heart} alt="Wishlist" className="wishlist-icon" />
+            </button>
+            <button className="add-to-cart-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.70711 15.2929C4.07714 15.9229 4.52331 17 5.41421 17H17M17 17C15.8954 17 15 17.8954 15 19C15 20.1046 15.8954 21 17 21C18.1046 21 19 20.1046 19 19C19 17.8954 18.1046 17 17 17ZM9 19C9 20.1046 8.10457 21 7 21C5.89543 21 5 20.1046 5 19C5 17.8954 5.89543 17 7 17C8.10457 17 9 17.8954 9 19Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Add to Cart
+            </button>
+          </div>
         </div>
       </div>
 
