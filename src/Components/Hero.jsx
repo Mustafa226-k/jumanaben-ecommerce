@@ -1,34 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect} from 'react';
 import "../style/hero.css"
+import "../style/Products.css";
+import {getFeaturedProducts} from '../API/productapi';
+import Loding from './Loding';
 
 
 const Hero = () => {
   const [currentProductIndex, setCurrentProductIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [products,setProducts] = useState();
+
+  useEffect(()=>{
+    const fetchProducts = async () => {
+      try{
+        const data = await getFeaturedProducts();
+        setProducts(data);
+      }
+      catch(error){
+        console.error("Error fetching products:",error);
+      }
+      finally{
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  },[]);
+
+  if(loading){
+  return <div className='container'><Loding/></div>;
+}
+  if(products.length === 0){
+    return <div className="no-products-container">No products found</div>;
+  }
+  
+
 
   // Sample products - you can replace with your actual data
-  const products = [
-    {
-      id: 1,
-      name: "Nerdy Sparkling Short Sleeve T-Shirt Black",
-      price: 150,
-      category: "Apparel • Shirt",
-      image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&h=500&fit=crop"
-    },
-    {
-      id: 2,
-      name: "Urban Street Style Hoodie",
-      price: 180,
-      category: "Apparel • Hoodie",
-      image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&h=500&fit=crop"
-    },
-    {
-      id: 3,
-      name: "Classic Denim Jacket",
-      price: 220,
-      category: "Apparel • Jacket",
-      image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=500&fit=crop"
-    }
-  ];
+  // const products = [
+  //   {
+  //     id: 1,
+  //     name: "Nerdy Sparkling Short Sleeve T-Shirt Black",
+  //     price: 150,
+  //     category: "Apparel • Shirt",
+  //     image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&h=500&fit=crop"
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Urban Street Style Hoodie",
+  //     price: 180,
+  //     category: "Apparel • Hoodie",
+  //     image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&h=500&fit=crop"
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Classic Denim Jacket",
+  //     price: 220,
+  //     category: "Apparel • Jacket",
+  //     image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=500&fit=crop"
+  //   }
+  // ];
 
   const handlePrevProduct = () => {
     setCurrentProductIndex((prev) =>

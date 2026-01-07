@@ -1,6 +1,7 @@
 import React, { useState , useEffect } from 'react';
 import "../style/Products.css";
-import { getFeaturedProducts , getAvailableProducts } from '../API/productapi';
+import {getAvailableProducts } from '../API/productapi';
+import Loding from './Loding';
 
 // Static products data - Easy to edit and make dynamic later
 
@@ -32,7 +33,7 @@ useEffect(()=>{
 // console.log(productsData);
 
 if(loading){
-  return <div className="loading-container">Loading...</div>;
+  return <div className='container'><Loding/></div>;
 }
   if(productsData.length === 0){
     return <div className="no-products-container">No products found</div>;

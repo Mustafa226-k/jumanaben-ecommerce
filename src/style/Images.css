@@ -1,0 +1,12 @@
+/* Images.css - Global image styling */
+
+/* Navbar user avatar - compact circular profile pic */
+.navbar-user {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 8px;
+}

@@ -1,0 +1,97 @@
+/* Loding.css */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  background-color: #f8bbd0;
+  /* Base background from index.css */
+  font-family: 'Poppins', sans-serif;
+}
+
+.hanger-wrapper {
+  transform-origin: top center;
+  animation: sway 2s ease-in-out infinite alternate;
+}
+
+.hanger-svg {
+  width: 120px;
+  height: auto;
+  overflow: visible;
+}
+
+/* Hanger Styling */
+.hanger-hook {
+  fill: none;
+  stroke: #555;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.hanger-body {
+  fill: none;
+  stroke: #555;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+/* Clothing Styling */
+.clothing-item {
+  fill: #e91e63;
+  /* Pink accent */
+  stroke: none;
+  animation: breathe 2s ease-in-out infinite alternate;
+}
+
+.clothing-folds {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.3);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* Text Styling */
+.loading-text {
+  margin-top: 20px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #e91e63;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  animation: fadeInOut 2s ease-in-out infinite;
+}
+
+/* Animations */
+@keyframes sway {
+  from {
+    transform: rotate(-10deg);
+  }
+
+  to {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes breathe {
+  from {
+    filter: brightness(100%);
+  }
+
+  to {
+    filter: brightness(110%);
+  }
+}
+
+@keyframes fadeInOut {
+
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
