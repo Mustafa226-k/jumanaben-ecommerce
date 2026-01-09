@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import {
   signInWithPopup,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail
 } from "firebase/auth";
-import { auth, googleProvider  } from "../firebase/authentication";
+import { auth, googleProvider,db  } from "../firebase/authentication";
 import "../style/authentication.css";
+
 
 const getAuthErrorMessage = (error) => {
   switch (error.code) {
@@ -50,6 +52,18 @@ const handleFrogetPassword = async (email) => {
   }
 };
 
+const createUserIfNotExists = async (user) => {
+  const userRef = doc(db, "users", user.uid);
+  const snap = await getDoc(userRef);
+
+  if (!snap.exists()) {
+    await setDoc(userRef, {
+      email: user.email,
+      wishlist: [],
+    });
+  }
+};
+
 
 const Auth = () => {
   const [isSignup, setIsSignup] = useState(false);
@@ -57,20 +71,28 @@ const Auth = () => {
   const [password, setPassword] = useState("");
 
   const handleGoogleAuth = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider );
-      console.log("google button clicked")
-    } catch (err) {
-     alert(getAuthErrorMessage(err))
-    }
-  };
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+
+    // 🔑 CREATE USER IN FIRESTORE
+    await createUserIfNotExists(result.user);
+
+    console.log("google login success");
+  } catch (err) {
+    alert(getAuthErrorMessage(err));
+  }
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      isSignup
-        ? await createUserWithEmailAndPassword(auth, email, password)
-        : await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = isSignup
+  ? await createUserWithEmailAndPassword(auth, email, password)
+  : await signInWithEmailAndPassword(auth, email, password);
+
+// 🔑 CREATE USER IN FIRESTORE
+await createUserIfNotExists(userCredential.user);
     } catch (err) {
        alert(getAuthErrorMessage(err))
       console.error(err);

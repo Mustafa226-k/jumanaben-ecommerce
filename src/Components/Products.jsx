@@ -3,6 +3,14 @@ import "../style/Products.css";
 import {getAvailableProducts } from '../API/productapi';
 import Loding from './Loding';
 import heart from "../Images/heart.png";
+import {auth,db} from "../firebase/authentication";
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+} from "firebase/firestore";
 
 // Static products data - Easy to edit and make dynamic later
 
@@ -11,7 +19,8 @@ const Products = () => {
   const [productsData, setProductsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
- // const [wishlist, setWishlist] = useState(new Set());
+ const [userWishlist, setUserWishlist] = useState(new Set());
+
 
   const productsPerPage = 8;
 
@@ -30,6 +39,23 @@ useEffect(()=>{
   };
   fetchProducts();
 },[]);
+
+useEffect(() => {
+  const fetchUserWishlist = async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const userRef = doc(db, "users", user.uid);
+    const snap = await getDoc(userRef);
+
+    if (snap.exists()) {
+      setUserWishlist(new Set(snap.data().wishlist || []));
+    }
+  };
+
+  fetchUserWishlist();
+}, []);
+
 
 // console.log(productsData);
 
@@ -64,15 +90,31 @@ if(loading){
     setCurrentPage(pageNumber);
   };
 
- const toggleWishlist = (productId) => {
-    setProductsData((prev) =>
-      prev.map((product) =>
-        product.id === productId
-          ? { ...product, wishlist: !product.wishlist }
-          : product
-      )
-    );
-  };
+const toggleWishlist = async (productId) => {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const userRef = doc(db, "users", user.uid);
+
+  setUserWishlist((prev) => {
+    const updated = new Set(prev);
+
+    if (updated.has(productId)) {
+      updated.delete(productId);
+      updateDoc(userRef, {
+        wishlist: arrayRemove(productId),
+      });
+    } else {
+      updated.add(productId);
+      updateDoc(userRef, {
+        wishlist: arrayUnion(productId),
+      });
+    }
+
+    return updated;
+  });
+};
+
 
   console.log(productsData)
   return (
@@ -108,19 +150,16 @@ if(loading){
                   <div className="product-card-actions">
                     {/* ✅ WISHLIST BUTTON */}
                     <button
-                      className={`wishlist-icon-btn ${
-                        product.wishlist ? "active" : ""
-                      }`}
-                      title="Add to Wishlist"
-                      aria-label="Add to wishlist"
-                      onClick={() => toggleWishlist(product.id)}
-                    >
-                      <img
-                        src={heart}
-                        alt="Wishlist"
-                        className="wishlist-icon"
-                      />
-                    </button>
+                    className={`wishlist-icon-btn ${
+                      userWishlist.has(product.id) ? "active" : ""
+                    }`}
+                    onClick={() => toggleWishlist(product.id)}
+                  >
+                    <img src={heart} alt="Wishlist" className="wishlist-icon" />
+                  </button>
+
+                    {/* ✅ ADD TO CART BUTTON */}
+
                     <button className="add-to-cart-icon-btn" aria-label="Add to cart">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                         <path

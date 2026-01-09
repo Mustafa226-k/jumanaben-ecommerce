@@ -7,6 +7,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/authentication";
 
 import { Routes, Route, Navigate } from "react-router-dom";
+import Wishlist from "./Pages/Wishlist";
 
 const Loading = () => (
   <div style={{ textAlign: "center", marginTop: "50px" }}>
@@ -49,7 +50,11 @@ function App() {
 
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/" />} />
+
+      <Route path="/wishlist" element={<Wishlist />} />
     </Routes>
+    // <>
+    // <Wishlist/></>
   );
 }
 

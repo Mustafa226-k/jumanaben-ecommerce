@@ -3,6 +3,8 @@ import user from "../Images/user.png";
 import heart from "../Images/heart.png";
 import shoppingCart from "../Images/shopping-cart.png";
 import "../style/Images.css";
+import { Link } from "react-router-dom";
+
 
 export default function Navbar() {
   return (
@@ -10,9 +12,9 @@ export default function Navbar() {
         <nav className="navbar navbar-expand-lg bg-light">
   <div className="container-fluid">
 
-    <a className="navbar-brand" href="#">
+    <Link className="navbar-brand" to="/">
       Mustafa Collection
-    </a>
+    </Link>
 
     <button
       className="navbar-toggler"
@@ -57,9 +59,9 @@ export default function Navbar() {
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="#">
+          <Link className="nav-link" to="/wishlist">
             <img src={heart} alt="Wishlist" title="Wishlist" className="navbar-icon" />
-          </a>
+          </Link>
         </li>
         <li className="nav-item">
           <a className="nav-link" href="#">
