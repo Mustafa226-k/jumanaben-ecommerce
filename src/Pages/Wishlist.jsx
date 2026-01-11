@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import "../style/Wishlist.css";
 import { auth, db } from "../firebase/authentication";
-import {
-  doc,
-  getDoc,
-  updateDoc,
-  arrayRemove,
-} from "firebase/firestore";
-import Loding from '../Components/Loding';
-import Navbar from '../Components/Navbar';
-import Footer from '../Components/Footer';
+import { doc, getDoc, updateDoc, arrayRemove } from "firebase/firestore";
+import Loding from "../Components/Loding";
+import Navbar from "../Components/Navbar";
+import Footer from "../Components/Footer";
 import heart from "../Images/heart.png";
-import { getAvailableProducts } from '../API/productapi';
+import { getAvailableProducts } from "../API/productapi";
 
 const Wishlist = () => {
   const [wishlistProducts, setWishlistProducts] = useState([]);
@@ -19,75 +14,73 @@ const Wishlist = () => {
   const [userWishlist, setUserWishlist] = useState(new Set());
 
   // Fetch user's wishlist on component mount
- useEffect(() => {
-  const fetchWishlistProducts = async () => {
-    try {
-      const user = auth.currentUser;
-      if (!user) {
+  useEffect(() => {
+    const fetchWishlistProducts = async () => {
+      try {
+        const user = auth.currentUser;
+        if (!user) {
+          setLoading(false);
+          return;
+        }
+
+        // 1️⃣ Get user wishlist IDs
+        const userRef = doc(db, "users", user.uid);
+        const snap = await getDoc(userRef);
+
+        if (!snap.exists()) {
+          setLoading(false);
+          return;
+        }
+
+        const wishlistIds = snap.data().wishlist || [];
+        const wishlistSet = new Set(wishlistIds);
+        setUserWishlist(wishlistSet);
+
+        // 2️⃣ Get all available products
+        const allProducts = await getAvailableProducts();
+
+        // 3️⃣ Filter only wishlisted products
+        const filteredProducts = allProducts.filter((product) =>
+          wishlistSet.has(product.id)
+        );
+
+        // 4️⃣ Save real product objects
+        setWishlistProducts(filteredProducts);
         setLoading(false);
-        return;
-      }
-
-      // 1️⃣ Get user wishlist IDs
-      const userRef = doc(db, "users", user.uid);
-      const snap = await getDoc(userRef);
-
-      if (!snap.exists()) {
+      } catch (error) {
+        console.error("Error fetching wishlist products:", error);
         setLoading(false);
-        return;
       }
+    };
 
-      const wishlistIds = snap.data().wishlist || [];
-      const wishlistSet = new Set(wishlistIds);
-      setUserWishlist(wishlistSet);
-
-      // 2️⃣ Get all available products
-      const allProducts = await getAvailableProducts();
-
-      // 3️⃣ Filter only wishlisted products
-      const filteredProducts = allProducts.filter((product) =>
-        wishlistSet.has(product.id)
-      );
-
-      // 4️⃣ Save real product objects
-      setWishlistProducts(filteredProducts);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching wishlist products:", error);
-      setLoading(false);
-    }
-  };
-
-  fetchWishlistProducts();
-}, []);
-
+    fetchWishlistProducts();
+  }, []);
 
   // Remove from wishlist
- const handleRemoveFromWishlist = async (productId) => {
-  const user = auth.currentUser;
-  if (!user) return;
+  const handleRemoveFromWishlist = async (productId) => {
+    const user = auth.currentUser;
+    if (!user) return;
 
-  const userRef = doc(db, "users", user.uid);
+    const userRef = doc(db, "users", user.uid);
 
-  try {
-    await updateDoc(userRef, {
-      wishlist: arrayRemove(productId),
-    });
+    try {
+      await updateDoc(userRef, {
+        wishlist: arrayRemove(productId),
+      });
 
-    setUserWishlist((prev) => {
-      const updated = new Set(prev);
-      updated.delete(productId);
-      return updated;
-    });
+      setUserWishlist((prev) => {
+        const updated = new Set(prev);
+        updated.delete(productId);
+        return updated;
+      });
 
-    setWishlistProducts((prev) =>
-      prev.filter((product) => product.id !== productId)
-    );
-  } catch (error) {
-    console.error("Error removing from wishlist:", error);
-  }
-};
-
+      setWishlistProducts((prev) =>
+        prev.filter((product) => product.id !== productId)
+      );
+    } catch (error) {
+      console.error("Error removing from wishlist:", error);
+    }
+  };
 
   if (loading) {
     return (
@@ -113,7 +106,9 @@ const Wishlist = () => {
             <p className="wishlist-subtitle">
               {wishlistProducts.length === 0
                 ? "Your wishlist is empty"
-                : `You have ${wishlistProducts.length} item${wishlistProducts.length !== 1 ? "s" : ""} in your wishlist`}
+                : `You have ${wishlistProducts.length} item${
+                    wishlistProducts.length !== 1 ? "s" : ""
+                  } in your wishlist`}
             </p>
           </div>
 
@@ -129,15 +124,15 @@ const Wishlist = () => {
           ) : (
             <div className="wishlist-grid">
               {wishlistProducts.map((product) => (
-             <div key={product.id} className="wishlist-card">
+                <div key={product.id} className="wishlist-card">
                   {/* Card Image Placeholder */}
                   <div className="wishlist-card-image">
                     <div className="image-placeholder">
-                     <img
-                      src={product.image}
-                      alt={product.name}
-                      className="wishlist-product-img"
-                    />
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="wishlist-product-img"
+                      />
                     </div>
                     <div className="wishlist-card-overlay">
                       <button className="quick-view-wishlist-btn">
@@ -150,9 +145,11 @@ const Wishlist = () => {
                   <div className="wishlist-card-info">
                     <p className="wishlist-card-category">{product.category}</p>
                     <h3 className="wishlist-card-name">{product.name}</h3>
-                    
+
                     <div className="wishlist-card-footer">
-                      <span className="wishlist-card-price">₹{product.price}</span>
+                      <span className="wishlist-card-price">
+                        ₹{product.price}
+                      </span>
                       <button
                         className="wishlist-remove-btn"
                         onClick={() => handleRemoveFromWishlist(product.id)}

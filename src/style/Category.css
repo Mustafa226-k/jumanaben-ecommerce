@@ -1,0 +1,229 @@
+/* Category Section Styles */
+.category-section {
+  position: relative;
+  padding: 5rem 2rem;
+  background: linear-gradient(135deg, #f8bbd0 0%, #f48fb1 30%, #ec407a 70%, #d81b60 100%);
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+.category-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(236, 64, 122, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(216, 27, 96, 0.12) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.category-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Category Header */
+.category-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  animation: fadeInUp 1s ease-out;
+}
+
+.category-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #1a1a1a 0%, #4a148c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+}
+
+.category-subtitle {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #424242;
+  max-width: 600px;
+  margin: 0 auto;
+  font-weight: 400;
+}
+
+/* Category Filter Tabs */
+.category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+  animation: fadeInUp 1s ease-out 0.1s both;
+}
+
+.category-tab {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid rgba(236, 64, 122, 0.3);
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #424242;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.category-tab:hover {
+  border-color: rgba(236, 64, 122, 0.6);
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-2px);
+}
+
+.category-tab.active {
+  background: linear-gradient(135deg, #ec407a 0%, #d81b60 100%);
+  color: white;
+  border-color: #d81b60;
+  box-shadow: 0 10px 30px rgba(216, 27, 96, 0.3);
+}
+
+.tab-count {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* Selected Category Header */
+.selected-category-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  animation: fadeInUp 1s ease-out 0.2s both;
+}
+
+.selected-category-header h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+
+.selected-category-header p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* No Products Message */
+.no-products-container {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  font-size: 1.2rem;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Products Grid - using same classes as Products.jsx */
+.category-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  animation: fadeInUp 1s ease-out 0.2s both;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .category-products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .category-tabs {
+    gap: 0.75rem;
+  }
+
+  .category-tab {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .category-section {
+    padding: 2rem 1rem;
+  }
+
+  .category-products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .category-header {
+    margin-bottom: 2rem;
+  }
+
+  .category-title {
+    font-size: 2rem;
+  }
+
+  .category-subtitle {
+    font-size: 1rem;
+  }
+
+  .category-tabs {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+
+  .category-tab {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-section {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .category-products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .category-title {
+    font-size: 1.5rem;
+  }
+
+  .category-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .category-tabs {
+    gap: 0.5rem;
+  }
+
+  .category-tab {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+}

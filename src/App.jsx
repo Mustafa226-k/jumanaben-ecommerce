@@ -8,6 +8,7 @@ import { auth } from "./firebase/authentication";
 
 import { Routes, Route, Navigate } from "react-router-dom";
 import Wishlist from "./Pages/Wishlist";
+import Category from "./Pages/Category";
 
 const Loading = () => (
   <div style={{ textAlign: "center", marginTop: "50px" }}>
@@ -52,6 +53,8 @@ function App() {
       <Route path="*" element={<Navigate to="/" />} />
 
       <Route path="/wishlist" element={<Wishlist />} />
+
+      <Route path="/categories" element={<Category />} />
     </Routes>
     // <>
     // <Wishlist/></>
