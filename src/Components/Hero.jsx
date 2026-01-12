@@ -49,6 +49,19 @@ const Hero = () => {
     fetchUserWishlist();
   }, []);
 
+  // Auto-swap cards every 5 seconds
+  useEffect(() => {
+    if (!products || products.length === 0) return;
+
+    const interval = setInterval(() => {
+      setCurrentProductIndex((prev) =>
+        prev === products.length - 1 ? 0 : prev + 1
+      );
+    }, 5000); // 5 seconds interval
+
+    return () => clearInterval(interval);
+  }, [products]);
+
   if (loading) {
     return (
       <div className="container">

@@ -183,7 +183,20 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease-in-out;
+  animation: fadeInImage 0.8s ease-in-out;
+}
+
+@keyframes fadeInImage {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .hero-product-card:hover .product-image {
@@ -210,6 +223,20 @@
   line-height: 1.4;
   margin: 0;
   flex: 1;
+  transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .product-price {
@@ -217,12 +244,16 @@
   font-weight: 700;
   color: #d81b60;
   white-space: nowrap;
+  transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+  animation: fadeInUp 0.8s ease-out 0.1s both;
 }
 
 .product-category {
   font-size: 0.875rem;
   color: #757575;
   margin: 0;
+  transition: opacity 0.8s ease-in-out;
+  animation: fadeInUp 0.8s ease-out 0.2s both;
 }
 
 /* Add to Cart Button */
