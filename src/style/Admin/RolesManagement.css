@@ -1,0 +1,152 @@
+/* Roles Management Styling */
+.roles-management {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.permissions-grid {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 5px;
+  margin: 15px 0;
+}
+
+.permissions-grid h4 {
+  margin-top: 0;
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.permission-checkbox {
+  display: inline-block;
+  margin-right: 20px;
+  margin-bottom: 12px;
+  color: #34495e;
+  cursor: pointer;
+  user-select: none;
+}
+
+.permission-checkbox input[type="checkbox"] {
+  margin-right: 8px;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  accent-color: #3498db;
+}
+
+.roles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.role-card {
+  background: white;
+  border: 2px solid #ecf0f1;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+}
+
+.role-card:hover {
+  border-color: #3498db;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+  transform: translateY(-3px);
+}
+
+.role-card h3 {
+  color: #2c3e50;
+  margin: 0 0 10px 0;
+  font-size: 20px;
+}
+
+.role-description {
+  color: #7f8c8d;
+  font-size: 14px;
+  margin: 0 0 15px 0;
+  line-height: 1.5;
+}
+
+.role-permissions {
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.role-permissions strong {
+  display: block;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+.role-permissions ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.role-permissions li {
+  color: #34495e;
+  padding: 4px 0;
+  font-size: 13px;
+  padding-left: 15px;
+  position: relative;
+}
+
+.role-permissions li:before {
+  content: "✓";
+  color: #27ae60;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+.role-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.role-actions .btn-edit,
+.role-actions .btn-delete {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.role-actions .btn-edit {
+  background: #3498db;
+  color: white;
+}
+
+.role-actions .btn-edit:hover {
+  background: #2980b9;
+}
+
+.role-actions .btn-delete {
+  background: #e74c3c;
+  color: white;
+}
+
+.role-actions .btn-delete:hover {
+  background: #c0392b;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .roles-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .permission-checkbox {
+    display: block;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+}
