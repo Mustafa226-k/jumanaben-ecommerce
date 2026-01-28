@@ -1,9 +1,6 @@
 import { useState } from "react";
 import AdminSidebar from "../Components/AdminSidebar";
 import ProductManagement from "../Components/Admin/ProductManagement";
-import UserManagement from "../Components/Admin/UserManagement";
-import AdminManagement from "../Components/Admin/AdminManagement";
-import RolesManagement from "../Components/Admin/RolesManagement";
 import Reports from "../Components/Admin/Reports";
 import "../style/AdminPanel.css";
 
@@ -14,12 +11,6 @@ function AdminPanel() {
     switch (activeSection) {
       case "products":
         return <ProductManagement />;
-      case "users":
-        return <UserManagement />;
-      case "admins":
-        return <AdminManagement />;
-      case "roles":
-        return <RolesManagement />;
       case "reports":
         return <Reports />;
       default:
@@ -62,13 +53,6 @@ function Dashboard() {
           <p className="stat-number">0</p>
           <button onClick={() => (window.location.href = "#orders")}>
             View
-          </button>
-        </div>
-        <div className="stat-card">
-          <h3>Admins</h3>
-          <p className="stat-number">0</p>
-          <button onClick={() => (window.location.href = "#admins")}>
-            Manage
           </button>
         </div>
       </div>

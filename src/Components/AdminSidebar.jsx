@@ -7,9 +7,6 @@ function AdminSidebar({ activeSection, setActiveSection }) {
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: "📊" },
     { id: "products", label: "Product Management", icon: "📦" },
-    { id: "users", label: "User Management", icon: "👥" },
-    { id: "admins", label: "Admin Management", icon: "👔" },
-    { id: "roles", label: "Roles Management", icon: "🔐" },
     { id: "reports", label: "Reports", icon: "📈" },
   ];
 
