@@ -22,6 +22,8 @@ const Category = () => {
   const [userWishlist, setUserWishlist] = useState(new Set());
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [categories, setCategories] = useState([]);
+   const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 8;
 
   // Fetch all available products
   useEffect(() => {
@@ -114,6 +116,8 @@ const Category = () => {
     }
   };
 
+  
+
   const filteredProducts = useMemo(() => {
     if (selectedCategory === "All") {
       return productsData;
@@ -123,6 +127,31 @@ const Category = () => {
       (product) => product.category === selectedCategory
     );
   }, [productsData, selectedCategory]);
+
+  const totalProducts = filteredProducts.length;
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
+
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+
+  const currentProducts = filteredProducts.slice(startIndex, endIndex);
+
+  // Handle page navigation
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => (prev > 1 ? prev - 1 : prev));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => (prev < totalPages ? prev + 1 : prev));
+  };
+
+  const handlePageClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+useEffect(() => {
+  setCurrentPage(1);
+}, [selectedCategory]);
 
   if (loading) {
     return (
@@ -140,7 +169,7 @@ const Category = () => {
     <>
       <Navbar />
 
-      <div className="category-section">
+      <div className="category-section container">
         <div className="category-container">
           {/* Header */}
           <div className="category-header">
@@ -196,7 +225,7 @@ const Category = () => {
             </div>
           ) : (
             <div className="category-products-grid">
-              {filteredProducts.map((product) => (
+              {currentProducts.map((product) => (
                 <div key={product.id} className="product-card">
                   <div className="product-image-wrapper">
                     <img
@@ -265,6 +294,63 @@ const Category = () => {
             </div>
           )}
         </div>
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="pagination-container">
+            <button
+              className="pagination-btn pagination-prev"
+              onClick={handlePrevPage}
+              disabled={currentPage === 1}
+              aria-label="Previous page"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M15 18L9 12L15 6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <span>Previous</span>
+            </button>
+
+            <div className="pagination-pages">
+              {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+                (pageNumber) => (
+                  <button
+                    key={pageNumber}
+                    className={`pagination-page-btn ${
+                      currentPage === pageNumber ? "active" : ""
+                    }`}
+                    onClick={() => handlePageClick(pageNumber)}
+                    aria-label={`Go to page ${pageNumber}`}
+                  >
+                    {pageNumber}
+                  </button>
+                )
+              )}
+            </div>
+
+            <button
+              className="pagination-btn pagination-next"
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+              aria-label="Next page"
+            >
+              <span>Next</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M9 18L15 12L9 6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        )}
       </div>
 
       <Footer />

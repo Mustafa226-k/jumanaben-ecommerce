@@ -12,7 +12,7 @@ import {
   arrayRemove,
 } from "firebase/firestore";
 
-// Static products data - Easy to edit and make dynamic later
+// product logic
 
 const Products = () => {
   const [productsData, setProductsData] = useState([]);
