@@ -8,13 +8,15 @@ function ProductManagement() {
     price: "",
     description: "",
     image: "",
+    active: true,
+    featured: false,
   });
   const [editingId, setEditingId] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const { name, type, value, checked } = e.target;
+    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
   };
 
   const handleAddProduct = () => {
@@ -32,7 +34,14 @@ function ProductManagement() {
           { ...formData, id: Date.now(), active: true, featured: false },
         ]);
       }
-      setFormData({ name: "", price: "", description: "", image: "" });
+      setFormData({
+        name: "",
+        price: "",
+        description: "",
+        image: "",
+        active: true,
+        featured: false,
+      });
       setShowForm(false);
     }
   };
@@ -68,7 +77,14 @@ function ProductManagement() {
           onClick={() => {
             setShowForm(!showForm);
             setEditingId(null);
-            setFormData({ name: "", price: "", description: "", image: "" });
+            setFormData({
+              name: "",
+              price: "",
+              description: "",
+              image: "",
+              active: true,
+              featured: false,
+            });
           }}
         >
           {showForm ? "Cancel" : "+ Add Product"}
@@ -105,6 +121,33 @@ function ProductManagement() {
             value={formData.image}
             onChange={handleInputChange}
           />
+          <div className="form-switches">
+            <label className="switch-label">
+              Status
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  name="active"
+                  checked={!!formData.active}
+                  onChange={handleInputChange}
+                />
+                <span className="slider"></span>
+              </label>
+            </label>
+
+            <label className="switch-label">
+              Featured
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  name="featured"
+                  checked={!!formData.featured}
+                  onChange={handleInputChange}
+                />
+                <span className="slider"></span>
+              </label>
+            </label>
+          </div>
           <button className="btn-submit" onClick={handleAddProduct}>
             {editingId ? "Update Product" : "Add Product"}
           </button>
