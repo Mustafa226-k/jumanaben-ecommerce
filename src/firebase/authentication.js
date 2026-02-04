@@ -18,5 +18,7 @@ const db = getFirestore(app);
 console.log("Connected Firebase Project:", db.app.options.projectId);
 
 
+
+
 export { auth , googleProvider , db };
 export default app

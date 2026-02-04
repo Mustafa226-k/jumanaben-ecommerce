@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import LoginSignup from "./Pages/LoginSignup";
 import Home from "./Pages/Home";
+import Loding from "./Components/Loding";
 
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/authentication";
@@ -11,9 +12,7 @@ import Wishlist from "./Pages/Wishlist";
 import Category from "./Pages/Category";
 import AdminPanel from "./Pages/AdminPanel";
 
-const Loading = () => (
-  <div style={{ textAlign: "center", marginTop: "50px" }}>Loading...</div>
-);
+
 
 function App() {
   // ✅ Hooks must be here (top level)
@@ -31,7 +30,7 @@ function App() {
 
   // ✅ show loading until Firebase finishes checking
   if (authChecked === false) {
-    return <Loading />;
+    return <Loding />;
   }
 
   return (

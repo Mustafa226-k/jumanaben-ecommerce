@@ -3,6 +3,7 @@ import AdminSidebar from "../Components/AdminSidebar";
 import ProductManagement from "../Components/Admin/ProductManagement";
 import Reports from "../Components/Admin/Reports";
 import "../style/AdminPanel.css";
+import AdminCheck from "../Components/Admin/AdminCheck";
 
 function AdminPanel() {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -20,6 +21,7 @@ function AdminPanel() {
 
   return (
     <div className="admin-container">
+      <AdminCheck/>
       <AdminSidebar
         activeSection={activeSection}
         setActiveSection={setActiveSection}
