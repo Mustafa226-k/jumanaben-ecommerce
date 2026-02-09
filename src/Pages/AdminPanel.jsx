@@ -20,19 +20,22 @@ function AdminPanel() {
   };
 
   return (
+     <AdminCheck>
     <div className="admin-container">
-      <AdminCheck/>
+     
       <AdminSidebar
         activeSection={activeSection}
         setActiveSection={setActiveSection}
       />
       <div className="admin-content">{renderSection()}</div>
     </div>
+    </AdminCheck>
   );
 }
 
 function Dashboard() {
   return (
+     <AdminCheck>
     <div className="dashboard">
       <h1>Admin Dashboard</h1>
       <div className="dashboard-stats">
@@ -62,6 +65,7 @@ function Dashboard() {
         <p>Welcome to Admin Panel. Use the sidebar to manage your store.</p>
       </div>
     </div>
+     </AdminCheck>
   );
 }
 

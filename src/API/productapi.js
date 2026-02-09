@@ -5,7 +5,7 @@ export const getAvailableProducts = async () =>{
   console.log("getAvailableProducts CALLED");
    try{
     const q = query(collection(db,"products"),
-    where("status","==","available")
+    where("isAvaliable","==",true)
    );
    const data = await getDocs(q);
 
@@ -27,8 +27,8 @@ export const getAvailableProducts = async () =>{
 export const getFeaturedProducts = async () =>{
   try{
     const q = query(collection(db,"products"),
-    where("isFeature","==",true),
-    where("status","==","available"));
+    where("isHero","==",true),
+    where("isAvaliable","==",true));
 
     const data = await getDocs(q);
     const product = data.docs.map((docs)=>({
